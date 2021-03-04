@@ -1,0 +1,20 @@
+<seelog levels="trace,debug,info,warn,error,critical">
+    <outputs formatid="main">
+        <filter levels="trace,debug,info">
+            <console formatid="colored-default"/>
+        </filter>
+        <filter levels="warn">
+            <console formatid="colored-warn"/>
+        </filter>
+        <filter levels="error,critical">
+            <console formatid="colored-error"/>
+        </filter>
+        <rollingfile formatid="main" type="size" filename="/app/GoWork/ligomonitor/configs/logs.log" maxsize="1048576" maxrolls="7" />
+    </outputs>
+    <formats>
+        <format id="colored-default"  format="%EscM(38)%Date %Time [%LEV] %File:%Line | %Msg%n%EscM(0)"/>
+        <format id="colored-warn"  format="%EscM(33)%Date %Time [%LEV] %File:%Line | %Msg%n%EscM(0)"/>
+        <format id="colored-error"  format="%EscM(31)%Date %Time [%LEV] %File:%Line | %Msg%n%EscM(0)"/>
+        <format id="main" format="%Date %Time [%LEV] %File:%Line | %Msg%n"/>
+    </formats>
+</seelog>

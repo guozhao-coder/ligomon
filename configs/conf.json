@@ -1,0 +1,20 @@
+{
+  "httpPort": 9001,
+  "useDB": true,
+  "dbConf": {
+    "dbType": "mysql",
+    "dbParams": {
+      "dbIP": "127.0.0.1",
+      "dbPort": "3306",
+      "dbUser": "root",
+      "dbName": "ligo-monitor",
+      "dbPwd": ""
+    },
+    "dbTopFlush": 1,
+    "dbDockerFlush": 10
+  },
+  "topFlushTime": 10,
+  "dockerFlushTime": 10,
+  "pprofPort": 7758,
+  "logPath": "/app/GoWork/ligomonitor/configs/logs.log"
+}

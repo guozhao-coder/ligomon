@@ -1,0 +1,123 @@
+[GIN-debug] GET    /monitor/process/stream   --> ligomonitor/pkg/service/ctl.GetProcInfoStreamCtl (4 handlers)
+[GIN-debug] GET    /monitor/process/snapshot/:pid --> ligomonitor/pkg/service/ctl.GetCurrentProcInfoCtl (4 handlers)
+[GIN-debug] GET    /monitor/process/kill/:pid --> ligomonitor/pkg/service/ctl.KillProcCtl (4 handlers)
+[GIN-debug] GET    /monitor/process/status/:pid --> ligomonitor/pkg/service/ctl.GetProcRectDataCtl (4 handlers)
+[GIN-debug] GET    /monitor/process/ptrace/:pid --> ligomonitor/pkg/service/ctl.GetProcSyscallStreamCtl (4 handlers)
+[GIN-debug] GET    /monitor/host/snapshot    --> ligomonitor/pkg/service/ctl.GetHostResourceCtl (4 handlers)
+[GIN-debug] GET    /monitor/host/stream      --> ligomonitor/pkg/service/ctl.GetHostResourceStreamCtl (4 handlers)
+[GIN-debug] GET    /monitor/process/stream   --> ligomonitor/pkg/service/ctl.GetProcInfoStreamCtl (4 handlers)
+[GIN-debug] GET    /monitor/process/snapshot/:pid --> ligomonitor/pkg/service/ctl.GetCurrentProcInfoCtl (4 handlers)
+[GIN-debug] GET    /monitor/process/kill/:pid --> ligomonitor/pkg/service/ctl.KillProcCtl (4 handlers)
+[GIN-debug] GET    /monitor/process/status/:pid --> ligomonitor/pkg/service/ctl.GetProcRectDataCtl (4 handlers)
+[GIN-debug] GET    /monitor/process/ptrace/:pid --> ligomonitor/pkg/service/ctl.GetProcSyscallStreamCtl (4 handlers)
+[GIN-debug] GET    /monitor/host/snapshot    --> ligomonitor/pkg/service/ctl.GetHostResourceCtl (4 handlers)
+[GIN-debug] GET    /monitor/host/stream      --> ligomonitor/pkg/service/ctl.GetHostResourceStreamCtl (4 handlers)
+[GIN-debug] GET    /monitor/process/stream   --> ligomonitor/pkg/service/ctl.GetProcInfoStreamCtl (4 handlers)
+[GIN-debug] GET    /monitor/process/snapshot/:pid --> ligomonitor/pkg/service/ctl.GetCurrentProcInfoCtl (4 handlers)
+[GIN-debug] GET    /monitor/process/kill/:pid --> ligomonitor/pkg/service/ctl.KillProcCtl (4 handlers)
+[GIN-debug] GET    /monitor/process/status/:pid --> ligomonitor/pkg/service/ctl.GetProcRectDataCtl (4 handlers)
+[GIN-debug] GET    /monitor/process/ptrace/:pid --> ligomonitor/pkg/service/ctl.GetProcSyscallStreamCtl (4 handlers)
+[GIN-debug] GET    /monitor/host/snapshot    --> ligomonitor/pkg/service/ctl.GetHostResourceCtl (4 handlers)
+[GIN-debug] GET    /monitor/host/stream      --> ligomonitor/pkg/service/ctl.GetHostResourceStreamCtl (4 handlers)
+[GIN-debug] GET    /monitor/process/stream   --> ligomonitor/pkg/service/ctl.GetProcInfoStreamCtl (4 handlers)
+[GIN-debug] GET    /monitor/process/snapshot/:pid --> ligomonitor/pkg/service/ctl.GetCurrentProcInfoCtl (4 handlers)
+[GIN-debug] GET    /monitor/process/kill/:pid --> ligomonitor/pkg/service/ctl.KillProcCtl (4 handlers)
+[GIN-debug] GET    /monitor/process/status/:pid --> ligomonitor/pkg/service/ctl.GetProcRectDataCtl (4 handlers)
+[GIN-debug] GET    /monitor/process/ptrace/:pid --> ligomonitor/pkg/service/ctl.GetProcSyscallStreamCtl (4 handlers)
+[GIN-debug] GET    /monitor/host/snapshot    --> ligomonitor/pkg/service/ctl.GetHostResourceCtl (4 handlers)
+[GIN-debug] GET    /monitor/host/stream      --> ligomonitor/pkg/service/ctl.GetHostResourceStreamCtl (4 handlers)
+[GIN-debug] GET    /monitor/process/stream   --> ligomonitor/pkg/service/ctl.GetProcInfoStreamCtl (4 handlers)
+[GIN-debug] GET    /monitor/process/snapshot/:pid --> ligomonitor/pkg/service/ctl.GetCurrentProcInfoCtl (4 handlers)
+[GIN-debug] GET    /monitor/process/kill/:pid --> ligomonitor/pkg/service/ctl.KillProcCtl (4 handlers)
+[GIN-debug] GET    /monitor/process/status/:pid --> ligomonitor/pkg/service/ctl.GetProcRectDataCtl (4 handlers)
+[GIN-debug] GET    /monitor/process/ptrace/:pid --> ligomonitor/pkg/service/ctl.GetProcSyscallStreamCtl (4 handlers)
+[GIN-debug] GET    /monitor/host/snapshot    --> ligomonitor/pkg/service/ctl.GetHostResourceCtl (4 handlers)
+[GIN-debug] GET    /monitor/host/stream      --> ligomonitor/pkg/service/ctl.GetHostResourceStreamCtl (4 handlers)
+[GIN-debug] GET    /monitor/process/stream   --> ligomonitor/pkg/service/ctl.GetProcInfoStreamCtl (4 handlers)
+[GIN-debug] GET    /monitor/process/snapshot/:pid --> ligomonitor/pkg/service/ctl.GetCurrentProcInfoCtl (4 handlers)
+[GIN-debug] GET    /monitor/process/kill/:pid --> ligomonitor/pkg/service/ctl.KillProcCtl (4 handlers)
+[GIN-debug] GET    /monitor/process/status/:pid --> ligomonitor/pkg/service/ctl.GetProcRectDataCtl (4 handlers)
+[GIN-debug] GET    /monitor/process/ptrace/:pid --> ligomonitor/pkg/service/ctl.GetProcSyscallStreamCtl (4 handlers)
+[GIN-debug] GET    /monitor/host/snapshot    --> ligomonitor/pkg/service/ctl.GetHostResourceCtl (4 handlers)
+[GIN-debug] GET    /monitor/host/stream      --> ligomonitor/pkg/service/ctl.GetHostResourceStreamCtl (4 handlers)
+2021-03-04 17:04:17 [INF] dbsvc.go:25 | -----------------同步开始2021-03-04 17:04:17.668552391 +0800 CST m=+60.007946154
+2021-03-04 17:04:19 [INF] dbsvc.go:40 | -----------------同步结束2021-03-04 17:04:17.668608607 +0800 CST m=+60.008002364
+2021-03-04 17:05:17 [INF] dbsvc.go:25 | -----------------同步开始2021-03-04 17:05:17.668770387 +0800 CST m=+120.008164154
+2021-03-04 17:05:19 [INF] dbsvc.go:40 | -----------------同步结束2021-03-04 17:05:17.668792359 +0800 CST m=+120.008186114
+2021-03-04 17:06:17 [INF] dbsvc.go:25 | -----------------同步开始2021-03-04 17:06:17.668574618 +0800 CST m=+180.007968384
+2021-03-04 17:06:19 [INF] dbsvc.go:40 | -----------------同步结束2021-03-04 17:06:17.668592933 +0800 CST m=+180.007986687
+[GIN-debug] GET    /monitor/process/stream   --> ligomonitor/pkg/service/ctl.GetProcInfoStreamCtl (4 handlers)
+[GIN-debug] GET    /monitor/process/snapshot/:pid --> ligomonitor/pkg/service/ctl.GetCurrentProcInfoCtl (4 handlers)
+[GIN-debug] GET    /monitor/process/kill/:pid --> ligomonitor/pkg/service/ctl.KillProcCtl (4 handlers)
+[GIN-debug] GET    /monitor/process/status/:pid --> ligomonitor/pkg/service/ctl.GetProcRectDataCtl (4 handlers)
+[GIN-debug] GET    /monitor/process/ptrace/:pid --> ligomonitor/pkg/service/ctl.GetProcSyscallStreamCtl (4 handlers)
+[GIN-debug] GET    /monitor/host/snapshot    --> ligomonitor/pkg/service/ctl.GetHostResourceCtl (4 handlers)
+[GIN-debug] GET    /monitor/host/stream      --> ligomonitor/pkg/service/ctl.GetHostResourceStreamCtl (4 handlers)
+2021-03-04 17:08:15 [INF] dbsvc.go:25 | -----------------同步开始2021-03-04 17:08:15.903543213 +0800 CST m=+60.005026560
+2021-03-04 17:08:18 [INF] dbsvc.go:40 | -----------------同步结束2021-03-04 17:08:15.903581498 +0800 CST m=+60.005064821
+2021-03-04 17:09:15 [INF] dbsvc.go:25 | -----------------同步开始2021-03-04 17:09:15.903729721 +0800 CST m=+120.005213053
+2021-03-04 17:09:18 [INF] dbsvc.go:40 | -----------------同步结束2021-03-04 17:09:15.903778297 +0800 CST m=+120.005261620
+2021-03-04 17:10:15 [INF] dbsvc.go:25 | -----------------同步开始2021-03-04 17:10:15.903564563 +0800 CST m=+180.005047890
+2021-03-04 17:10:17 [INF] dbsvc.go:40 | -----------------同步结束2021-03-04 17:10:15.903610406 +0800 CST m=+180.005093728
+2021-03-04 17:11:15 [INF] dbsvc.go:25 | -----------------同步开始2021-03-04 17:11:15.903621273 +0800 CST m=+240.005104602
+2021-03-04 17:11:17 [INF] dbsvc.go:40 | -----------------同步结束2021-03-04 17:11:15.903672127 +0800 CST m=+240.005155453
+2021-03-04 17:12:15 [INF] dbsvc.go:25 | -----------------同步开始2021-03-04 17:12:15.903686645 +0800 CST m=+300.005169977
+2021-03-04 17:12:18 [INF] dbsvc.go:40 | -----------------同步结束2021-03-04 17:12:15.90370895 +0800 CST m=+300.005192273
+2021-03-04 17:13:15 [INF] dbsvc.go:25 | -----------------同步开始2021-03-04 17:13:15.903590751 +0800 CST m=+360.005074084
+2021-03-04 17:13:17 [INF] dbsvc.go:40 | -----------------同步结束2021-03-04 17:13:15.903609196 +0800 CST m=+360.005092519
+2021-03-04 17:14:15 [INF] dbsvc.go:25 | -----------------同步开始2021-03-04 17:14:15.903491906 +0800 CST m=+420.004975244
+2021-03-04 17:14:18 [INF] dbsvc.go:40 | -----------------同步结束2021-03-04 17:14:15.903511639 +0800 CST m=+420.004994962
+2021-03-04 17:15:15 [INF] dbsvc.go:25 | -----------------同步开始2021-03-04 17:15:15.903679769 +0800 CST m=+480.005163099
+2021-03-04 17:15:17 [INF] dbsvc.go:40 | -----------------同步结束2021-03-04 17:15:15.903701964 +0800 CST m=+480.005185285
+2021-03-04 17:16:15 [INF] dbsvc.go:25 | -----------------同步开始2021-03-04 17:16:15.903548629 +0800 CST m=+540.005031961
+2021-03-04 17:16:18 [INF] dbsvc.go:40 | -----------------同步结束2021-03-04 17:16:15.903568738 +0800 CST m=+540.005052062
+2021-03-04 17:17:15 [INF] dbsvc.go:25 | -----------------同步开始2021-03-04 17:17:15.903760325 +0800 CST m=+600.005243669
+2021-03-04 17:17:17 [INF] dbsvc.go:40 | -----------------同步结束2021-03-04 17:17:15.903780085 +0800 CST m=+600.005263407
+2021-03-04 17:18:15 [INF] dbsvc.go:25 | -----------------同步开始2021-03-04 17:18:15.903468098 +0800 CST m=+660.004951428
+2021-03-04 17:18:17 [INF] dbsvc.go:40 | -----------------同步结束2021-03-04 17:18:15.903506939 +0800 CST m=+660.004990264
+2021-03-04 17:19:15 [INF] dbsvc.go:25 | -----------------同步开始2021-03-04 17:19:15.903587795 +0800 CST m=+720.005071128
+2021-03-04 17:19:17 [INF] dbsvc.go:40 | -----------------同步结束2021-03-04 17:19:15.903608734 +0800 CST m=+720.005092057
+2021-03-04 17:20:15 [INF] dbsvc.go:25 | -----------------同步开始2021-03-04 17:20:15.90355016 +0800 CST m=+780.005033494
+2021-03-04 17:20:17 [INF] dbsvc.go:40 | -----------------同步结束2021-03-04 17:20:15.903572962 +0800 CST m=+780.005056285
+2021-03-04 17:21:15 [INF] dbsvc.go:25 | -----------------同步开始2021-03-04 17:21:15.90360654 +0800 CST m=+840.005089872
+2021-03-04 17:21:17 [INF] dbsvc.go:40 | -----------------同步结束2021-03-04 17:21:15.903644531 +0800 CST m=+840.005127852
+2021-03-04 17:22:15 [INF] dbsvc.go:25 | -----------------同步开始2021-03-04 17:22:15.903549826 +0800 CST m=+900.005033159
+2021-03-04 17:22:18 [INF] dbsvc.go:40 | -----------------同步结束2021-03-04 17:22:15.903576881 +0800 CST m=+900.005060203
+2021-03-04 17:23:15 [INF] dbsvc.go:25 | -----------------同步开始2021-03-04 17:23:15.903703884 +0800 CST m=+960.005187215
+2021-03-04 17:23:17 [INF] dbsvc.go:40 | -----------------同步结束2021-03-04 17:23:15.90375102 +0800 CST m=+960.005234342
+2021-03-04 17:24:15 [INF] dbsvc.go:25 | -----------------同步开始2021-03-04 17:24:15.903720719 +0800 CST m=+1020.005204059
+2021-03-04 17:24:17 [INF] dbsvc.go:40 | -----------------同步结束2021-03-04 17:24:15.903743748 +0800 CST m=+1020.005227070
+2021-03-04 17:25:15 [INF] dbsvc.go:25 | -----------------同步开始2021-03-04 17:25:15.903536095 +0800 CST m=+1080.005019439
+2021-03-04 17:25:18 [INF] dbsvc.go:40 | -----------------同步结束2021-03-04 17:25:15.90356882 +0800 CST m=+1080.005052144
+2021-03-04 17:26:15 [INF] dbsvc.go:25 | -----------------同步开始2021-03-04 17:26:15.903587973 +0800 CST m=+1140.005071322
+2021-03-04 17:26:17 [INF] dbsvc.go:40 | -----------------同步结束2021-03-04 17:26:15.903624156 +0800 CST m=+1140.005107478
+2021-03-04 17:27:15 [INF] dbsvc.go:25 | -----------------同步开始2021-03-04 17:27:15.903703214 +0800 CST m=+1200.005186667
+2021-03-04 17:27:17 [INF] dbsvc.go:40 | -----------------同步结束2021-03-04 17:27:15.903749785 +0800 CST m=+1200.005233107
+2021-03-04 17:28:15 [INF] dbsvc.go:25 | -----------------同步开始2021-03-04 17:28:15.903712892 +0800 CST m=+1260.005196223
+2021-03-04 17:28:18 [INF] dbsvc.go:40 | -----------------同步结束2021-03-04 17:28:15.903763179 +0800 CST m=+1260.005246501
+2021-03-04 17:29:15 [INF] dbsvc.go:25 | -----------------同步开始2021-03-04 17:29:15.903636627 +0800 CST m=+1320.005119957
+2021-03-04 17:29:18 [INF] dbsvc.go:40 | -----------------同步结束2021-03-04 17:29:15.903675583 +0800 CST m=+1320.005158903
+2021-03-04 17:30:15 [INF] dbsvc.go:25 | -----------------同步开始2021-03-04 17:30:15.903697238 +0800 CST m=+1380.005180572
+2021-03-04 17:30:18 [INF] dbsvc.go:40 | -----------------同步结束2021-03-04 17:30:15.903717359 +0800 CST m=+1380.005200683
+2021-03-04 17:31:15 [INF] dbsvc.go:25 | -----------------同步开始2021-03-04 17:31:15.903739377 +0800 CST m=+1440.005222708
+2021-03-04 17:31:18 [INF] dbsvc.go:40 | -----------------同步结束2021-03-04 17:31:15.90379366 +0800 CST m=+1440.005276983
+2021-03-04 17:32:15 [INF] dbsvc.go:25 | -----------------同步开始2021-03-04 17:32:15.903686292 +0800 CST m=+1500.005169920
+2021-03-04 17:32:17 [INF] dbsvc.go:40 | -----------------同步结束2021-03-04 17:32:15.90377779 +0800 CST m=+1500.005261112
+2021-03-04 17:33:15 [INF] dbsvc.go:25 | -----------------同步开始2021-03-04 17:33:15.903701415 +0800 CST m=+1560.005184748
+2021-03-04 17:33:17 [INF] dbsvc.go:40 | -----------------同步结束2021-03-04 17:33:15.903726769 +0800 CST m=+1560.005210092
+2021-03-04 17:34:15 [INF] dbsvc.go:25 | -----------------同步开始2021-03-04 17:34:15.903692743 +0800 CST m=+1620.005176074
+2021-03-04 17:34:17 [INF] dbsvc.go:40 | -----------------同步结束2021-03-04 17:34:15.903743159 +0800 CST m=+1620.005226481
+2021-03-04 17:35:15 [INF] dbsvc.go:25 | -----------------同步开始2021-03-04 17:35:15.903740156 +0800 CST m=+1680.005223486
+2021-03-04 17:35:18 [INF] dbsvc.go:40 | -----------------同步结束2021-03-04 17:35:15.903773058 +0800 CST m=+1680.005256406
+2021-03-04 17:36:15 [INF] dbsvc.go:25 | -----------------同步开始2021-03-04 17:36:15.90355757 +0800 CST m=+1740.005040905
+2021-03-04 17:36:18 [INF] dbsvc.go:40 | -----------------同步结束2021-03-04 17:36:15.903601494 +0800 CST m=+1740.005084818
+2021-03-04 17:37:15 [INF] dbsvc.go:25 | -----------------同步开始2021-03-04 17:37:15.903584646 +0800 CST m=+1800.005068036
+2021-03-04 17:37:18 [INF] dbsvc.go:40 | -----------------同步结束2021-03-04 17:37:15.903652332 +0800 CST m=+1800.005135655
+2021-03-04 17:38:15 [INF] dbsvc.go:25 | -----------------同步开始2021-03-04 17:38:15.903673459 +0800 CST m=+1860.005156791
+2021-03-04 17:38:18 [INF] dbsvc.go:40 | -----------------同步结束2021-03-04 17:38:15.903718821 +0800 CST m=+1860.005202143
+2021-03-04 17:39:15 [INF] dbsvc.go:25 | -----------------同步开始2021-03-04 17:39:15.903740593 +0800 CST m=+1920.005223924
+2021-03-04 17:39:17 [INF] dbsvc.go:40 | -----------------同步结束2021-03-04 17:39:15.903802976 +0800 CST m=+1920.005286299
+2021-03-04 17:40:15 [INF] dbsvc.go:25 | -----------------同步开始2021-03-04 17:40:15.903601421 +0800 CST m=+1980.005084765
+2021-03-04 17:40:18 [INF] dbsvc.go:40 | -----------------同步结束2021-03-04 17:40:15.903621921 +0800 CST m=+1980.005105243
+2021-03-04 17:41:15 [INF] dbsvc.go:25 | -----------------同步开始2021-03-04 17:41:15.903624449 +0800 CST m=+2040.005107780
+2021-03-04 17:41:17 [INF] dbsvc.go:40 | -----------------同步结束2021-03-04 17:41:15.903674275 +0800 CST m=+2040.005157599
