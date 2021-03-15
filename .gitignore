@@ -1,3 +1,4 @@
 .idea
-.json
-.xml
+*.json
+*.xml
+*.log
