@@ -1,5 +1,7 @@
 package model
 
+import "sync"
+
 type Process struct {
 	Pid           int     `json:"pid"`
 	PPid          int     `json:"pPid"`
@@ -26,9 +28,31 @@ type Process struct {
 	CPUUsage      float32 `json:"cpuUsage"`      //cpu使用率
 	CPUUsed       int64   `json:"cpuUsed"`       //cpu使用情况
 	Time          int     `json:"time"`
+	IFAlarm       bool    `json:"ifAlarm"`       //是否报警
+	AlarmMessage  AlarmMsg  `json:"alarmMessage,omitempty"` //报警信息
 }
 
 type ProcessMsg struct {
 	Procs []Process `json:"procs"`
 	Err   error     `json:"err"`
+}
+
+type AlarmMsg struct {
+	CPUMsg string	`json:"cpuMsg"`
+	VMMsg string`json:"vmMsg"`
+}
+
+type AlarmLimit struct {
+	VMLimit int64  //内存最大限制
+	CPULimit float32 //cpu最大限制
+	Operate AlarmOperate //告警后的操作
+}
+
+type AlarmOperate struct {
+	Fnc func(int) error
+} 
+
+type AlarmLimitData struct {
+	Lck sync.RWMutex
+	AlarmLimitMap map[int]*AlarmLimit
 }

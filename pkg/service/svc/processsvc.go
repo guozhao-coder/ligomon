@@ -2,6 +2,7 @@ package svc
 
 import (
 	"github.com/cihub/seelog"
+	"ligomonitor/pkg/cons"
 	"ligomonitor/pkg/model"
 	"ligomonitor/pkg/service/dbsync"
 	"ligomonitor/pkg/service/host"
@@ -56,6 +57,26 @@ func KillProcSvc(pid int) error {
 func GetProcRectDataSvc(pid int) ([]model.Process, error) {
 	cli := dbsync.NewDBCli()
 	return cli.GetProcessRectData(pid)
+}
+
+func RegisterAlarmEventSvc(event model.AlarmEvtRegisterRequest) error {
+	alarmEvent := model.AlarmLimit{}
+	alarmEvent.VMLimit = event.VMLimit
+	alarmEvent.CPULimit = event.CPULimit
+	//register the callback function
+	switch cons.AlarmSignal(event.Operate) {
+	case cons.KILLSIG:
+		alarmEvent.Operate.Fnc = host.KillProcess
+	default:
+		alarmEvent.Operate.Fnc = func(pid int) error {
+			return nil
+		}
+	}
+	//需要加写锁
+	host.AlarmLimitMap.Lck.Lock()
+	defer host.AlarmLimitMap.Lck.Unlock()
+	host.AlarmLimitMap.AlarmLimitMap[event.Pid] = &alarmEvent
+	return nil
 }
 
 type processWapper struct {

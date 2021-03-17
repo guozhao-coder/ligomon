@@ -2,14 +2,13 @@ package test
 
 import (
 	"fmt"
-	"ligomonitor/pkg/conn"
 	"ligomonitor/pkg/service/host"
 	"testing"
 )
 
 func TestProcessInfo(t *testing.T) {
 	//for{
-	processes, e := host.GetProcessInfo(240167777, true)
+	processes, e := host.GetProcessParam(1)
 	if e != nil {
 		fmt.Println(e)
 		return
@@ -66,6 +65,4 @@ func TestGetCpuUsage(t *testing.T) {
 	fmt.Println(c)
 }
 
-func TestDocker(t *testing.T) {
-	conn.Cli()
-}
+
