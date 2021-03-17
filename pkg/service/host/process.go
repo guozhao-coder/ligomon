@@ -313,7 +313,6 @@ func getProcessInfo(pid int) (model.Process, ifProcess, error) {
 		return model.Process{}, true, nil
 	}
 
-
 	return model.Process{
 		Pid:           pid1,
 		PPid:          pPid1,
@@ -374,24 +373,24 @@ func KillProcess(pid int) error {
 }
 
 //check the resource ,it will be alarmed if it is upper to the limit
-func checkResourceUpperLimit(proc *model.Process)  {
+func checkResourceUpperLimit(proc *model.Process) {
 	AlarmLimitMap.Lck.RLock()
 	defer AlarmLimitMap.Lck.RUnlock()
-	if alarmLimitData,ok := AlarmLimitMap.AlarmLimitMap[proc.Pid];ok{
+	if alarmLimitData, ok := AlarmLimitMap.AlarmLimitMap[proc.Pid]; ok {
 		//compare
 		timeNow := time.Now().Format("2006-01-02 15:04:05")
 		var errS string
-		if alarmLimitData.CPULimit < proc.CPUUsage{
-			errS = fmt.Sprintf("%s : %d process's cpu usage is upper the limit , upper limit is %f , current is %f ,please check it !",timeNow,proc.Pid,alarmLimitData.CPULimit,proc.CPUUsage)
+		if alarmLimitData.CPULimit < proc.CPUUsage {
+			errS = fmt.Sprintf("%s : %d process's cpu usage is upper the limit , upper limit is %f , current is %f ,please check it !", timeNow, proc.Pid, alarmLimitData.CPULimit, proc.CPUUsage)
 			seelog.Error(errS)
 			proc.AlarmMessage.CPUMsg = errS
 		}
-		if alarmLimitData.VMLimit < proc.VmRss{
-			errS = fmt.Sprintf("%s : %d process's memory is upper the limit,  upper limit is %d , current is %d  ,please check it !",timeNow,proc.Pid,alarmLimitData.VMLimit,proc.VmRss)
+		if alarmLimitData.VMLimit < proc.VmRss {
+			errS = fmt.Sprintf("%s : %d process's memory is upper the limit,  upper limit is %d , current is %d  ,please check it !", timeNow, proc.Pid, alarmLimitData.VMLimit, proc.VmRss)
 			seelog.Error(errS)
 			proc.AlarmMessage.VMMsg = errS
 		}
-		if errS != ""{
+		if errS != "" {
 			proc.IFAlarm = true
 			//execute the register func
 			alarmLimitData.Operate.Fnc(proc.Pid)

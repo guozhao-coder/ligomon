@@ -64,5 +64,3 @@ func TestGetCpuUsage(t *testing.T) {
 	c = float32(a) / float32(b)
 	fmt.Println(c)
 }
-
-

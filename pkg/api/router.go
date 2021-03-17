@@ -55,7 +55,7 @@ func Router(conf *model.LiGoMoniConf) *gin.Engine {
 			//websocket,get the process syscall
 			groupProcess.GET("/ptrace/:pid", ctl.GetProcSyscallStreamCtl)
 			//register alarm event
-			groupProcess.POST("/alarm/register",ctl.RegisterAlarmEventCtl)
+			groupProcess.POST("/alarm/register", ctl.RegisterAlarmEventCtl)
 		}
 		groupHost := groupMonitor.Group("/host")
 		{

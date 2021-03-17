@@ -19,6 +19,7 @@ const (
 )
 
 type AlarmSignal int
+
 const (
 	KILLSIG AlarmSignal = 1
 )

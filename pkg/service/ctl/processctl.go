@@ -213,10 +213,10 @@ func GetProcSyscallStreamCtl(c *gin.Context) {
 
 }
 
-func RegisterAlarmEventCtl(c *gin.Context)  {
+func RegisterAlarmEventCtl(c *gin.Context) {
 	alarmEvtReq := model.AlarmEvtRegisterRequest{}
 	err := c.ShouldBindJSON(&alarmEvtReq)
-	if err != nil{
+	if err != nil {
 		c.JSON(cons.HTTPHEADERCODE, model.NormalResponse{
 			Code:    cons.UNMARSHALERR,
 			Message: "request body unmarshal error !",
@@ -224,14 +224,14 @@ func RegisterAlarmEventCtl(c *gin.Context)  {
 		return
 	}
 	err = svc.RegisterAlarmEventSvc(alarmEvtReq)
-	if err != nil{
+	if err != nil {
 		c.JSON(cons.HTTPHEADERCODE, model.NormalResponse{
 			Code:    cons.SERVERERR,
 			Message: err.Error(),
 		})
 		return
 	}
-	c.JSON(cons.HTTPHEADERCODE,model.NormalResponse{
+	c.JSON(cons.HTTPHEADERCODE, model.NormalResponse{
 		Code:    cons.SUCCESS,
 		Message: "success",
 	})
