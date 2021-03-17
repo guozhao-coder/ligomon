@@ -15,12 +15,18 @@ import (
 	"ligomonitor/utils"
 	"os"
 	"strconv"
+	"sync"
 	"syscall"
 	"time"
 )
 
 type ifProcess bool
 type withCPU bool
+
+var AlarmLimitMap = model.AlarmLimitData{
+	Lck:           sync.RWMutex{},
+	AlarmLimitMap: make(map[int]*model.AlarmLimit),
+}
 
 func GetProcessTotalInfo(pid int, withCpu withCPU) ([]model.Process, error) {
 	if !withCpu {
@@ -77,6 +83,7 @@ func GetProcessTotalInfo(pid int, withCpu withCPU) ([]model.Process, error) {
 		if m1v, ok := procMap1[m2k]; ok {
 			cpuusg = float32(m2v.CPUUsed-m1v.CPUUsed) / float32(cpuSS2-cpuSS1) * float32(GetCPUNum())
 			m2v.CPUUsage = cpuusg
+			checkResourceUpperLimit(&m2v)
 			procs = append(procs, m2v)
 		}
 	}
@@ -130,8 +137,9 @@ func GetProcessParam(pid int) ([]model.Process, error) {
 	return []model.Process{}, errors.New("this Pid's process is a Thread !")
 }
 
-//提供一个进程的信息,如果是线程，返回false
-//如果出错，返回空结构体
+//Provide the information of a process,
+//if it is a thread, return false,
+//If there is an error, an empty struct is returned
 func getProcessInfo(pid int) (model.Process, ifProcess, error) {
 	defer func() {
 		if err := recover(); err != nil {
@@ -348,7 +356,7 @@ func getPidName(pid int) (string, error) {
 	return string(nameBuf[:n]), nil
 }
 
-//信号杀死某进程
+//kill the target process
 func KillProcess(pid int) error {
 	defer func() {
 		if err := recover(); err != nil {
@@ -364,27 +372,28 @@ func KillProcess(pid int) error {
 	return nil
 }
 
-/*
-func GetCPUUsage(pid int) (float32,error) {
-	var cpuT1,pCpuT1,cpuT2,pCpuT2 int64
-	var cpuUsage float32
-	var err error
-	if cpuT1, err = GetTotalCPUTime();err != nil{
-		return 0,err
+//check the resource ,it will be alarmed if it is upper to the limit
+func checkResourceUpperLimit(proc *model.Process) {
+	AlarmLimitMap.Lck.RLock()
+	defer AlarmLimitMap.Lck.RUnlock()
+	if alarmLimitData, ok := AlarmLimitMap.AlarmLimitMap[proc.Pid]; ok {
+		//compare
+		timeNow := time.Now().Format("2006-01-02 15:04:05")
+		var errS string
+		if alarmLimitData.CPULimit < proc.CPUUsage {
+			errS = fmt.Sprintf("%s : %d process's cpu usage is upper the limit , upper limit is %f , current is %f ,please check it !", timeNow, proc.Pid, alarmLimitData.CPULimit, proc.CPUUsage)
+			seelog.Error(errS)
+			proc.AlarmMessage.CPUMsg = errS
+		}
+		if alarmLimitData.VMLimit < proc.VmRss {
+			errS = fmt.Sprintf("%s : %d process's memory is upper the limit,  upper limit is %d , current is %d  ,please check it !", timeNow, proc.Pid, alarmLimitData.VMLimit, proc.VmRss)
+			seelog.Error(errS)
+			proc.AlarmMessage.VMMsg = errS
+		}
+		if errS != "" {
+			proc.IFAlarm = true
+			//execute the register func
+			alarmLimitData.Operate.Fnc(proc.Pid)
+		}
 	}
-	if pCpuT1, err = GetProcessCPUTime(pid);err != nil{
-		return 0,err
-	}
-	time.Sleep(time.Millisecond*50)
-	if cpuT2, err = GetTotalCPUTime();err != nil{
-		return 0,err
-	}
-	if pCpuT2, err = GetProcessCPUTime(pid);err != nil{
-		return 0,err
-	}
-	cpuUsage = float32(pCpuT2-pCpuT1)/float32(cpuT2-cpuT1)*float32(GetCPUNum())
-	fmt.Println(cpuUsage)
-	return cpuUsage,nil
 }
-
-*/

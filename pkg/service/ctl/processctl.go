@@ -146,7 +146,7 @@ func GetProcRectDataCtl(c *gin.Context) {
 }
 
 //对于trace信息，生产者消费者模型，由消费者关闭管道
-//todo bug:当被追踪进程退出时候，有些内存泄露
+//todo bug:当被追踪进程退出时候，有些内存泄露,但是当socket断掉，就恢复了
 func GetProcSyscallStreamCtl(c *gin.Context) {
 	pid, err := strconv.Atoi(c.Param("pid"))
 	if err != nil {
@@ -211,4 +211,28 @@ func GetProcSyscallStreamCtl(c *gin.Context) {
 		}
 	}
 
+}
+
+func RegisterAlarmEventCtl(c *gin.Context) {
+	alarmEvtReq := model.AlarmEvtRegisterRequest{}
+	err := c.ShouldBindJSON(&alarmEvtReq)
+	if err != nil {
+		c.JSON(cons.HTTPHEADERCODE, model.NormalResponse{
+			Code:    cons.UNMARSHALERR,
+			Message: "request body unmarshal error !",
+		})
+		return
+	}
+	err = svc.RegisterAlarmEventSvc(alarmEvtReq)
+	if err != nil {
+		c.JSON(cons.HTTPHEADERCODE, model.NormalResponse{
+			Code:    cons.SERVERERR,
+			Message: err.Error(),
+		})
+		return
+	}
+	c.JSON(cons.HTTPHEADERCODE, model.NormalResponse{
+		Code:    cons.SUCCESS,
+		Message: "success",
+	})
 }

@@ -42,7 +42,6 @@ func (m *MysqlCliStruct) InsertProcessData(processData []model.Process) error {
 			return err
 		}
 	}
-
 	begin.Commit()
 	return nil
 }

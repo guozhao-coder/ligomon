@@ -37,8 +37,8 @@ func NewMysqlClient(conf *model.DBParam) {
 	//init the tables
 	//todo
 	_, err = MysqlClient.Exec(MySQLDBCreate)
-	if err != nil{
-		fmt.Println("mysql init table error:",err.Error())
+	if err != nil {
+		fmt.Println("mysql init table error:", err.Error())
 	}
 }
 

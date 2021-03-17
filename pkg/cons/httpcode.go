@@ -15,4 +15,11 @@ const (
 	/*normal code*/
 	SERVERERR   = 500          //服务端出错
 	URLPARAMERR = 5001 << iota //url解析出错
+	UNMARSHALERR
+)
+
+type AlarmSignal int
+
+const (
+	KILLSIG AlarmSignal = 1
 )

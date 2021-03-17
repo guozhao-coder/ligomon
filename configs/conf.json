@@ -1,6 +1,6 @@
 {
   "httpPort": 9001,
-  "useDB": true,
+  "useDB": false,
   "dbConf": {
     "dbType": "mysql",
     "dbParams": {
@@ -8,7 +8,7 @@
       "dbPort": "3306",
       "dbUser": "root",
       "dbName": "ligo-monitor",
-      "dbPwd": ""
+      "dbPwd": "guozhao"
     },
     "dbTopFlush": 1,
     "dbDockerFlush": 10
