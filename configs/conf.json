@@ -1,5 +1,5 @@
 {
-  "httpPort": 9001,
+  "httpPort": 6789,
   "useDB": false,
   "dbConf": {
     "dbType": "mysql",

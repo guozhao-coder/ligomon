@@ -10,10 +10,13 @@ import (
 	"ligomonitor/pkg/service/ctl"
 	"net/http"
 	"os"
+	"os/signal"
 	"strconv"
+	"syscall"
 )
 
 func StartRouter() error {
+	go beforeQuit()
 	//start pprof
 	go startPprof()
 	//start http serve
@@ -85,4 +88,12 @@ func setGinLog(path string, engine *gin.Engine) {
 	}
 	gin.DefaultWriter = io.MultiWriter(logfd, os.Stdout)
 	engine.Use(gin.Recovery())
+}
+
+func beforeQuit() {
+	sigChan := make(chan os.Signal, 1)
+	signal.Notify(sigChan, os.Interrupt, os.Kill, syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT)
+	sig := <-sigChan
+	fmt.Println("ligomon: server stoped with signal: ", sig.String())
+	os.Exit(cons.RECVSIGSTOP)
 }
