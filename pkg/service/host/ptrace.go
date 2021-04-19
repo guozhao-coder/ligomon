@@ -12,7 +12,7 @@ import (
 */
 
 //生产者，提供系统调用信息
-func PtraceProvider(msg chan model.PtraceMsg, pid int) {
+func PtraceProvider(msg chan model.PtraceMsg, stop chan struct{}, pid int) {
 	defer func() {
 		if err := recover(); err != nil {
 			seelog.Warn("PtraceProvider recover reason : ", err)
@@ -28,7 +28,14 @@ func PtraceProvider(msg chan model.PtraceMsg, pid int) {
 	err = syscall.PtraceAttach(pid)
 	if err != nil {
 		seelog.Error("PtraceAttach error : ", err.Error())
-		msg <- model.PtraceMsg{Err: err}
+		{
+			select {
+			case <-stop:
+				return
+			default:
+			}
+			msg <- model.PtraceMsg{Err: err}
+		}
 		return
 	}
 	syscall.Wait4(pid, &wsstatus, 0, nil)
@@ -39,15 +46,29 @@ func PtraceProvider(msg chan model.PtraceMsg, pid int) {
 		err = syscall.PtraceDetach(pid)
 		if err != nil {
 			seelog.Warn("PtraceDetach error : ", err.Error())
-			msg <- model.PtraceMsg{Err: err}
+			{
+				select {
+				case <-stop:
+					return
+				default:
+				}
+				msg <- model.PtraceMsg{Err: err}
+			}
 		}
 		syscall.Wait4(pid, &wsstatus, 0, nil)
 	}()
 
 	//循环获取
 	for {
-		//用于换行
-		msg <- model.PtraceMsg{SyscallMsg: "\n", Err: nil}
+		{
+			select {
+			case <-stop:
+				return
+			default:
+			}
+			//用于换行
+			msg <- model.PtraceMsg{SyscallMsg: "\n", Err: nil}
+		}
 		//等待被跟踪进程进入系统调用
 		syscall.PtraceSyscall(pid, 0)
 		//使用wait系统调用，并传入等待的状态指针
@@ -57,21 +78,49 @@ func PtraceProvider(msg chan model.PtraceMsg, pid int) {
 		//如果有，则传递该信号到被追踪进程
 		if wsstatus.StopSignal().String() == "interrupt" {
 			syscall.PtraceSyscall(pid, int(wsstatus.StopSignal()))
-			//提示信息
-			msg <- model.PtraceMsg{SyscallMsg: ">>>>>>> receive a stop signal,send to tracee process", Err: nil}
-			//打印退出码
-			msg <- model.PtraceMsg{SyscallMsg: "------ exit status " + strconv.Itoa(wsstatus.ExitStatus()), Err: nil}
+			{
+				select {
+				case <-stop:
+					return
+				default:
+				}
+				//提示信息
+				msg <- model.PtraceMsg{SyscallMsg: ">>>>>>> receive a stop signal,send to tracee process", Err: nil}
+			}
+			{
+				select {
+				case <-stop:
+					return
+				default:
+				}
+				//打印退出码
+				msg <- model.PtraceMsg{SyscallMsg: "------ exit status " + strconv.Itoa(wsstatus.ExitStatus()), Err: nil}
+			}
 			return
 		}
 		//对PTRACE_GETREGS的封装，获取寄存器的数据保存到regs中
 		err = syscall.PtraceGetRegs(pid, &regs)
 		if err != nil {
 			seelog.Error("PtraceGetRegs error :", err.Error())
-			msg <- model.PtraceMsg{Err: err}
+			{
+				select {
+				case <-stop:
+					return
+				default:
+				}
+				msg <- model.PtraceMsg{Err: err}
+			}
 			return
 		}
 		//打印系统调用名称
-		msg <- model.PtraceMsg{SyscallMsg: "CURRENT SYSCALL:" + sTask[regs.Orig_rax].Name}
+		{
+			select {
+			case <-stop:
+				return
+			default:
+			}
+			msg <- model.PtraceMsg{SyscallMsg: "CURRENT SYSCALL:" + sTask[regs.Orig_rax].Name}
+		}
 
 		//第二组PTRACE_SYSCALL与waitpid，等待系统调用返回
 		//用于获取系统调用返回后的参数
@@ -80,27 +129,62 @@ func PtraceProvider(msg chan model.PtraceMsg, pid int) {
 
 		//如果被跟踪进程退出，打印进程的退出码
 		if wsstatus.Exited() {
-			msg <- model.PtraceMsg{SyscallMsg: "------ exit status " + strconv.Itoa(wsstatus.ExitStatus()), Err: nil}
+			{
+				select {
+				case <-stop:
+					return
+				default:
+				}
+				msg <- model.PtraceMsg{SyscallMsg: "------ exit status " + strconv.Itoa(wsstatus.ExitStatus()), Err: nil}
+			}
 			return
 		}
 		//同上，判断进程是否被信号打断
 		if wsstatus.StopSignal().String() == "interrupt" {
 			syscall.PtraceSyscall(pid, int(wsstatus.StopSignal()))
-			//提示信息
-			msg <- model.PtraceMsg{SyscallMsg: ">>>>>>> receive a stop signal,send to tracee process", Err: nil}
-			//打印退出码
-			msg <- model.PtraceMsg{SyscallMsg: "------ exit status " + strconv.Itoa(wsstatus.ExitStatus()), Err: nil}
+			{
+				select {
+				case <-stop:
+					return
+				default:
+				}
+				//提示信息
+				msg <- model.PtraceMsg{SyscallMsg: ">>>>>>> receive a stop signal,send to tracee process", Err: nil}
+			}
+			{
+				select {
+				case <-stop:
+					return
+				default:
+				}
+				//打印退出码
+				msg <- model.PtraceMsg{SyscallMsg: "------ exit status " + strconv.Itoa(wsstatus.ExitStatus()), Err: nil}
+			}
 			return
 		}
 		//获取返回后的寄存器状态
 		err = syscall.PtraceGetRegs(pid, &regs)
 		if err != nil {
 			seelog.Error("PtraceGetRegs error :", err.Error())
-			msg <- model.PtraceMsg{Err: err}
+			{
+				select {
+				case <-stop:
+					return
+				default:
+				}
+				msg <- model.PtraceMsg{Err: err}
+			}
 			return
 		}
-		msg <- model.PtraceMsg{
-			SyscallMsg: "SYSCALL RETURN:" + strconv.Itoa(int(regs.Rax)),
+		{
+			select {
+			case <-stop:
+				return
+			default:
+			}
+			msg <- model.PtraceMsg{
+				SyscallMsg: "SYSCALL RETURN:" + strconv.Itoa(int(regs.Rax)),
+			}
 		}
 	}
 }

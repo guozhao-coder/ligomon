@@ -24,7 +24,7 @@ func GetHostResourceSvc() (*model.HostResourceUsed, error) {
 }
 
 //
-func GetHostResourceStreamSvc(msgchan chan model.HostResourceMsg) {
+func GetHostResourceStreamSvc(msgchan chan model.HostResourceMsg, stopchan chan struct{}) {
 	defer func() {
 		//恢复程序
 		if err := recover(); err != nil {
@@ -33,26 +33,47 @@ func GetHostResourceStreamSvc(msgchan chan model.HostResourceMsg) {
 	}()
 	cpuUsage, err := host.GetCPUUsage()
 	if err != nil {
-		msgchan <- model.HostResourceMsg{
-			Resource: model.HostResourceUsed{},
-			Err:      err,
+		{
+			select {
+			case <-stopchan:
+				return
+			default:
+			}
+			msgchan <- model.HostResourceMsg{
+				Resource: model.HostResourceUsed{},
+				Err:      err,
+			}
 		}
 		return
 	}
 	memUsage, err := host.GetMemAndSwapUsed()
 	if err != nil {
-		msgchan <- model.HostResourceMsg{
-			Resource: model.HostResourceUsed{},
-			Err:      err,
+		{
+			select {
+			case <-stopchan:
+				return
+			default:
+			}
+			msgchan <- model.HostResourceMsg{
+				Resource: model.HostResourceUsed{},
+				Err:      err,
+			}
 		}
 		return
 	}
-	msgchan <- model.HostResourceMsg{
-		Resource: model.HostResourceUsed{
-			CPUUsed: cpuUsage,
-			MemUsed: memUsage,
-		},
-		Err: nil,
+	{
+		select {
+		case <-stopchan:
+			return
+		default:
+		}
+		msgchan <- model.HostResourceMsg{
+			Resource: model.HostResourceUsed{
+				CPUUsed: cpuUsage,
+				MemUsed: memUsage,
+			},
+			Err: nil,
+		}
 	}
 	return
 }

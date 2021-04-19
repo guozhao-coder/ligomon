@@ -22,7 +22,7 @@ func GetCurrentProcInfoSvc(pid int) ([]model.Process, error) {
 	return processes, nil
 }
 
-func GetProcInfoStreamSvc(msgchan chan model.ProcessMsg) {
+func GetProcInfoStreamSvc(msgchan chan model.ProcessMsg, stopchan chan struct{}) {
 	defer func() {
 		//恢复程序
 		if err := recover(); err != nil {
@@ -31,9 +31,16 @@ func GetProcInfoStreamSvc(msgchan chan model.ProcessMsg) {
 	}()
 	processes, err := host.GetProcessTotalInfo(0, true)
 	if err != nil {
-		msgchan <- model.ProcessMsg{
-			Procs: nil,
-			Err:   err,
+		{
+			select {
+			case <-stopchan:
+				return
+			default:
+			}
+			msgchan <- model.ProcessMsg{
+				Procs: nil,
+				Err:   err,
+			}
 		}
 		return
 	}
@@ -43,9 +50,16 @@ func GetProcInfoStreamSvc(msgchan chan model.ProcessMsg) {
 			return p.CPUUsage > q.CPUUsage
 		}})
 	}
-	msgchan <- model.ProcessMsg{
-		Procs: processes,
-		Err:   nil,
+	{
+		select {
+		case <-stopchan:
+			return
+		default:
+		}
+		msgchan <- model.ProcessMsg{
+			Procs: processes,
+			Err:   nil,
+		}
 	}
 	return
 }

@@ -42,6 +42,8 @@ func GetHostResourceStreamCtl(c *gin.Context) {
 	topTicker := time.NewTicker(time.Second * time.Duration(app.LigoConf.TopFlushTime))
 	msgChan := make(chan model.HostResourceMsg, 100)
 	defer close(msgChan)
+	stopChan := make(chan struct{})
+	defer close(stopChan)
 	go func() {
 		for {
 			hostMsg, ifClose := <-msgChan
@@ -70,7 +72,7 @@ func GetHostResourceStreamCtl(c *gin.Context) {
 		}
 		select {
 		case <-topTicker.C:
-			go svc.GetHostResourceStreamSvc(msgChan)
+			go svc.GetHostResourceStreamSvc(msgChan, stopChan)
 		}
 	}
 }

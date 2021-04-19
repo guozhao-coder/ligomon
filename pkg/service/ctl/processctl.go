@@ -61,6 +61,8 @@ func GetProcInfoStreamCtl(c *gin.Context) {
 	topTicker := time.NewTicker(time.Second * time.Duration(app.LigoConf.TopFlushTime))
 	msgChan := make(chan model.ProcessMsg, 100)
 	defer close(msgChan)
+	stopChan := make(chan struct{})
+	defer close(stopChan)
 	go func() {
 		for {
 			procsMsg, ifClose := <-msgChan
@@ -93,7 +95,7 @@ func GetProcInfoStreamCtl(c *gin.Context) {
 		select {
 		case <-topTicker.C:
 			//启动一个goroutine去执行任务，获取完放入管道
-			go svc.GetProcInfoStreamSvc(msgChan)
+			go svc.GetProcInfoStreamSvc(msgChan, stopChan)
 		}
 	}
 }
@@ -168,6 +170,8 @@ func GetProcSyscallStreamCtl(c *gin.Context) {
 	defer wsconn.Close()
 	msgchan := make(chan model.PtraceMsg, 1000)
 	defer close(msgchan)
+	stopchan := make(chan struct{})
+	defer close(stopchan)
 	//开启消费者
 	go func() {
 		for {
@@ -191,7 +195,7 @@ func GetProcSyscallStreamCtl(c *gin.Context) {
 		}
 	}()
 	//开启生产者
-	go host.PtraceProvider(msgchan, pid)
+	go host.PtraceProvider(msgchan, stopchan, pid)
 
 	//判断客户端是否断开，或者发出信号，如果有，关闭管道
 	resp := model.NormalResponse{}
