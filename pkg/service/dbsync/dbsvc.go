@@ -6,17 +6,24 @@ import (
 	"ligomonitor/pkg/service/db"
 	"ligomonitor/pkg/service/host"
 	"ligomonitor/utils"
+	"sync"
 	"time"
 )
 
+var dbCli db.DBOperate
+var dbCliOnce sync.Once
+
 func NewDBCli() db.DBOperate {
-	switch DBCheck.DBType {
-	case "mysql":
-		return &db.MysqlCliStruct{DBClient: conn.MysqlClient}
-	case "mongo":
-		return &db.MongoCliStruct{DBClient: conn.MgoClient}
-	}
-	return nil
+	dbCliOnce.Do(func() {
+		switch DBCheck.DBType {
+		case "mysql":
+			dbCli = &db.MysqlCliStruct{DBClient: conn.MysqlClient}
+		case "mongo":
+			dbCli = &db.MongoCliStruct{DBClient: conn.MgoClient}
+		}
+	})
+
+	return dbCli
 }
 
 func syncProcess() {
