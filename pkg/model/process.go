@@ -56,3 +56,8 @@ type AlarmLimitData struct {
 	Lck           sync.RWMutex
 	AlarmLimitMap map[int]*AlarmLimit
 }
+
+type ProcInfoData struct {
+	Lck         sync.RWMutex
+	ProcInfoMap map[int]Process
+}

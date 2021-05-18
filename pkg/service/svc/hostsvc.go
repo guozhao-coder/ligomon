@@ -7,16 +7,10 @@ import (
 )
 
 func GetHostResourceSvc() (*model.HostResourceUsed, error) {
-	cpuUsage, err := host.GetCPUUsage()
-	if err != nil {
-		seelog.Error("get cpuusage error :", err.Error())
-		return nil, err
-	}
-	memUsage, err := host.GetMemAndSwapUsed()
-	if err != nil {
-		seelog.Error("get memusage error :", err.Error())
-		return nil, err
-	}
+	host.GlobalHostInfoMap.Lck.RLock()
+	cpuUsage := host.GlobalHostInfoMap.HostResource.CPUUsed
+	memUsage := host.GlobalHostInfoMap.HostResource.MemUsed
+	host.GlobalHostInfoMap.Lck.RUnlock()
 	return &model.HostResourceUsed{
 		CPUUsed: cpuUsage,
 		MemUsed: memUsage,
@@ -31,22 +25,10 @@ func GetHostResourceStreamSvc(msgchan chan model.HostResourceMsg) {
 			seelog.Info(err)
 		}
 	}()
-	cpuUsage, err := host.GetCPUUsage()
-	if err != nil {
-		msgchan <- model.HostResourceMsg{
-			Resource: model.HostResourceUsed{},
-			Err:      err,
-		}
-		return
-	}
-	memUsage, err := host.GetMemAndSwapUsed()
-	if err != nil {
-		msgchan <- model.HostResourceMsg{
-			Resource: model.HostResourceUsed{},
-			Err:      err,
-		}
-		return
-	}
+	host.GlobalHostInfoMap.Lck.RLock()
+	cpuUsage := host.GlobalHostInfoMap.HostResource.CPUUsed
+	memUsage := host.GlobalHostInfoMap.HostResource.MemUsed
+	host.GlobalHostInfoMap.Lck.RUnlock()
 	msgchan <- model.HostResourceMsg{
 		Resource: model.HostResourceUsed{
 			CPUUsed: cpuUsage,

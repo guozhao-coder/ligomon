@@ -13,7 +13,7 @@
     "dbTopFlush": 1,
     "dbDockerFlush": 10
   },
-  "topFlushTime": 10,
+  "topFlushTime": 2,
   "dockerFlushTime": 10,
   "pprofPort": 7758,
   "logPath": "/app/GoWork/ligomonitor/configs/logs.log"

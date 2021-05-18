@@ -15,7 +15,7 @@ func SyncDBTicker(dbconfig *model.DBConfig) {
 	for {
 		select {
 		case <-topTicket.C:
-			go syncProcess()
+			syncProcess()
 		case <-dockTicket.C:
 			fmt.Println("docker ticker")
 		}

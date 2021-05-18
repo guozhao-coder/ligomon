@@ -21,31 +21,39 @@ import (
 )
 
 type ifProcess bool
-type withCPU bool
 
 var AlarmLimitMap = model.AlarmLimitData{
 	Lck:           sync.RWMutex{},
 	AlarmLimitMap: make(map[int]*model.AlarmLimit),
 }
 
-func GetProcessTotalInfo(pid int, withCpu withCPU) ([]model.Process, error) {
-	if !withCpu {
-		return GetProcessParam(pid)
-	}
+//global sharing process map
+var GlobalProcInfoMap = model.ProcInfoData{
+	Lck:         sync.RWMutex{},
+	ProcInfoMap: make(map[int]model.Process),
+}
+
+//global sharing host map
+var GlobalHostInfoMap = model.HostResourceUsedData{
+	Lck:          sync.RWMutex{},
+	HostResource: model.HostResourceUsed{},
+}
+
+func GetProcessTotalInfo(pid int) error {
 	//snapshot1
 	//cpu snapshot 1
 	cpuSS1, err := GetTotalCPUTime()
 	if err != nil {
 		err = utils.ErrJoint("get cpu time err :", err)
 		seelog.Error(err.Error())
-		return nil, err
+		return err
 	}
 	//process cpu snapshot
 	procSS1, err := GetProcessParam(pid)
 	if err != nil {
 		err = utils.ErrJoint("get process param err :", err)
 		seelog.Error(err.Error())
-		return nil, err
+		return err
 	}
 	procMap1 := make(map[int]model.Process)
 	for i := 0; i < len(procSS1); i++ {
@@ -60,22 +68,22 @@ func GetProcessTotalInfo(pid int, withCpu withCPU) ([]model.Process, error) {
 	if err != nil {
 		err = utils.ErrJoint("get cpu time err :", err)
 		seelog.Error(err.Error())
-		return nil, err
+		return err
 	}
 	//process snapshot 2
 	procSS2, err := GetProcessParam(pid)
 	if err != nil {
 		err = utils.ErrJoint("get process time err :", err)
 		seelog.Error(err.Error())
-		return nil, err
+		return err
 	}
 	procMap2 := make(map[int]model.Process)
 	for i := 0; i < len(procSS2); i++ {
 		procMap2[procSS2[i].Pid] = procSS2[i]
 	}
 
-	//the array for return
-	procs := []model.Process{}
+	//a map for assignment
+	procMap := make(map[int]model.Process)
 
 	//calculate the cpu usage
 	var cpuusg float32
@@ -84,10 +92,15 @@ func GetProcessTotalInfo(pid int, withCpu withCPU) ([]model.Process, error) {
 			cpuusg = float32(m2v.CPUUsed-m1v.CPUUsed) / float32(cpuSS2-cpuSS1) * float32(GetCPUNum())
 			m2v.CPUUsage = cpuusg
 			checkResourceUpperLimit(&m2v)
-			procs = append(procs, m2v)
+			procMap[m2v.Pid] = m2v
 		}
 	}
-	return procs, nil
+	//lock and assignment
+	GlobalProcInfoMap.Lck.Lock()
+	GlobalProcInfoMap.ProcInfoMap = procMap
+	GlobalProcInfoMap.Lck.Unlock()
+
+	return nil
 
 }
 
@@ -397,5 +410,38 @@ func checkResourceUpperLimit(proc *model.Process) {
 				alarmLimitData.Operate.Fnc(i)
 			}, proc.Pid)
 		}
+	}
+}
+
+//A backend goroutine to fill the global sharing variable
+func InfoProduce() {
+	go procInfoProducer()
+	go hostInfoProducer()
+}
+
+func procInfoProducer() {
+	for {
+		err := GetProcessTotalInfo(0)
+		if err != nil {
+			seelog.Error("get process info err :", err.Error())
+		}
+	}
+}
+
+func hostInfoProducer() {
+	for {
+		cpuUsage, err := GetCPUUsage()
+		if err != nil {
+			seelog.Error("get cpuusage error :", err.Error())
+		}
+		memUsage, err := GetMemAndSwapUsed()
+		if err != nil {
+			seelog.Error("get memusage error :", err.Error())
+		}
+		//lock and assignment
+		GlobalHostInfoMap.Lck.Lock()
+		GlobalHostInfoMap.HostResource.CPUUsed = cpuUsage
+		GlobalHostInfoMap.HostResource.MemUsed = memUsage
+		GlobalHostInfoMap.Lck.Unlock()
 	}
 }
