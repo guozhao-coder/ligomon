@@ -2,3 +2,5 @@
 *.json
 *.xml
 *.log
+/.idea
+/configs/

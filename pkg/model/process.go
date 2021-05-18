@@ -49,10 +49,15 @@ type AlarmLimit struct {
 }
 
 type AlarmOperate struct {
-	Fnc func(int) error
+	Fnc func(int)
 }
 
 type AlarmLimitData struct {
 	Lck           sync.RWMutex
 	AlarmLimitMap map[int]*AlarmLimit
+}
+
+type ProcInfoData struct {
+	Lck         sync.RWMutex
+	ProcInfoMap map[int]Process
 }

@@ -1,5 +1,7 @@
 package model
 
+import "sync"
+
 type CPU struct {
 	UserUsage   float32 `json:"userUsage"`   //用户空间占比
 	NiceUsage   float32 `json:"niceUsage"`   //改变过优先级的进程的占比
@@ -36,4 +38,9 @@ type Swap struct {
 type MemAndSwap struct {
 	Mem *Memory `json:"mem"`
 	Swa *Swap   `json:"swa"`
+}
+
+type HostResourceUsedData struct {
+	Lck          sync.RWMutex
+	HostResource HostResourceUsed
 }

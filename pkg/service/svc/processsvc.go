@@ -10,15 +10,14 @@ import (
 )
 
 func GetCurrentProcInfoSvc(pid int) ([]model.Process, error) {
-	processes, err := host.GetProcessTotalInfo(pid, true)
-	if err != nil {
-		return []model.Process{}, err
+	processes := []model.Process{}
+	//直接在全局变量获取
+	host.GlobalProcInfoMap.Lck.RLock()
+	if process, ok := host.GlobalProcInfoMap.ProcInfoMap[pid]; ok {
+		processes = append(processes, process)
 	}
-	if len(processes) > 1 {
-		sort.Sort(processWapper{proc: processes, by: func(p, q *model.Process) bool {
-			return p.CPUUsage > q.CPUUsage
-		}})
-	}
+	host.GlobalProcInfoMap.Lck.RUnlock()
+
 	return processes, nil
 }
 
@@ -29,14 +28,13 @@ func GetProcInfoStreamSvc(msgchan chan model.ProcessMsg) {
 			seelog.Info(err)
 		}
 	}()
-	processes, err := host.GetProcessTotalInfo(0, true)
-	if err != nil {
-		msgchan <- model.ProcessMsg{
-			Procs: nil,
-			Err:   err,
-		}
-		return
+	processes := []model.Process{}
+	//直接在全局变量获取
+	host.GlobalProcInfoMap.Lck.RLock()
+	for _, proc := range host.GlobalProcInfoMap.ProcInfoMap {
+		processes = append(processes, proc)
 	}
+	host.GlobalProcInfoMap.Lck.RUnlock()
 	//长度大于1就排序
 	if len(processes) > 1 {
 		sort.Sort(processWapper{proc: processes, by: func(p, q *model.Process) bool {
@@ -65,11 +63,15 @@ func RegisterAlarmEventSvc(event model.AlarmEvtRegisterRequest) error {
 	alarmEvent.CPULimit = event.CPULimit
 	//register the callback function
 	switch cons.AlarmSignal(event.Operate) {
+	//kill the process
 	case cons.KILLSIG:
-		alarmEvent.Operate.Fnc = host.KillProcess
+		alarmEvent.Operate.Fnc = host.KillProcFunc
+	//send mail to admin user
+	case cons.MailSIG:
+		alarmEvent.Operate.Fnc = host.MailAlertFunc
 	default:
-		alarmEvent.Operate.Fnc = func(pid int) error {
-			return nil
+		alarmEvent.Operate.Fnc = func(pid int) {
+			return
 		}
 	}
 	//需要加写锁

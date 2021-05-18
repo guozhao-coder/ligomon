@@ -36,7 +36,6 @@ func GetCPUUsage() (*model.CPU, error) {
 	}
 	var extraStr string
 	scanStatFile := bufio.NewScanner(file)
-	fmt.Println(scanStatFile.Text())
 	for scanStatFile.Scan() {
 		if scanStatFile.Text() != "" {
 			fmt.Sscan(scanStatFile.Text(), &extraStr, &us1, &ni1, &sy1, &id1, &io1, &hi1, &si1, &st1)
