@@ -393,7 +393,9 @@ func checkResourceUpperLimit(proc *model.Process) {
 		if errS != "" {
 			proc.IFAlarm = true
 			//execute the register func
-			alarmLimitData.Operate.Fnc(proc.Pid)
+			alarmProcFunc(func(i int) {
+				alarmLimitData.Operate.Fnc(i)
+			}, proc.Pid)
 		}
 	}
 }

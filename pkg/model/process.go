@@ -49,7 +49,7 @@ type AlarmLimit struct {
 }
 
 type AlarmOperate struct {
-	Fnc func(int) error
+	Fnc func(int)
 }
 
 type AlarmLimitData struct {

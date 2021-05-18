@@ -65,11 +65,15 @@ func RegisterAlarmEventSvc(event model.AlarmEvtRegisterRequest) error {
 	alarmEvent.CPULimit = event.CPULimit
 	//register the callback function
 	switch cons.AlarmSignal(event.Operate) {
+	//kill the process
 	case cons.KILLSIG:
-		alarmEvent.Operate.Fnc = host.KillProcess
+		alarmEvent.Operate.Fnc = host.KillProcFunc
+	//send mail to admin user
+	case cons.MailSIG:
+		alarmEvent.Operate.Fnc = host.MailAlertFunc
 	default:
-		alarmEvent.Operate.Fnc = func(pid int) error {
-			return nil
+		alarmEvent.Operate.Fnc = func(pid int) {
+			return
 		}
 	}
 	//需要加写锁

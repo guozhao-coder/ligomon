@@ -22,4 +22,5 @@ type AlarmSignal int
 
 const (
 	KILLSIG AlarmSignal = 1
+	MailSIG AlarmSignal = 2
 )
