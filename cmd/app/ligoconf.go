@@ -9,6 +9,7 @@ import (
 	"ligomonitor/pkg/cons"
 	"ligomonitor/pkg/model"
 	"ligomonitor/pkg/service/dbsync"
+	"ligomonitor/pkg/service/host"
 	"ligomonitor/utils"
 	_ "net/http/pprof"
 	"os"
@@ -42,6 +43,8 @@ func NewLigoConf(path string) {
 		}
 	}
 	LigoConf = config
+	//将配置传到host包一份
+	host.InitHostConf(config)
 }
 
 func SyncToDB() {

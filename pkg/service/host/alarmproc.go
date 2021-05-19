@@ -3,6 +3,7 @@ package host
 import (
 	"github.com/cihub/seelog"
 	"github.com/patrickmn/go-cache"
+	"ligomonitor/pkg/model"
 	"ligomonitor/utils"
 	"strconv"
 	"sync"
@@ -12,10 +13,12 @@ import (
 
 const (
 	//Cache expiration time
-	CACHETIMEOUT = time.Minute * 10
+	CACHETIMEOUT = time.Minute * 20
 	//Clear time, here should be less than the expiration time, less than means not clear
 	CACHECLEANUP = time.Second
 )
+
+var ligoConf *model.LiGoMoniConf
 
 var cacheAlarm *cache.Cache
 var cacheOnce sync.Once
@@ -51,4 +54,9 @@ func KillProcFunc(pid int) {
 //send mail to admin user
 func MailAlertFunc(pid int) {
 
+}
+
+//the global config in package host
+func InitHostConf(conf *model.LiGoMoniConf) {
+	ligoConf = conf
 }
