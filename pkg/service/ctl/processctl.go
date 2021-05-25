@@ -85,13 +85,13 @@ func GetProcInfoStreamCtl(c *gin.Context) {
 
 	}()
 	for {
-		//发送心跳探测客户端是否存在
-		if err := wsconn.WriteJSON(model.NormalResponse{Code: cons.HEARTBEAT, Message: "heartbeat"}); err != nil {
-			seelog.Info("client heartbeat failed :", err.Error())
-			return
-		}
 		select {
 		case <-topTicker.C:
+			//发送心跳探测客户端是否存在
+			if err := wsconn.WriteJSON(model.NormalResponse{Code: cons.HEARTBEAT, Message: "heartbeat"}); err != nil {
+				seelog.Info("client heartbeat failed :", err.Error())
+				return
+			}
 			//启动一个goroutine去执行任务，获取完放入管道
 			go svc.GetProcInfoStreamSvc(msgChan)
 		}
