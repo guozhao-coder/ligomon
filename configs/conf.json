@@ -1,16 +1,16 @@
 {
   "httpPort": 6789,
-  "useDB": false,
+  "useDB": true,
   "dbConf": {
-    "dbType": "mysql",
+    "dbType": "mongo",
     "dbParams": {
       "dbIP": "127.0.0.1",
-      "dbPort": "3306",
-      "dbUser": "root",
+      "dbPort": "27017",
+      "dbUser": "guozhao",
       "dbName": "ligo-monitor",
       "dbPwd": "guozhao"
     },
-    "dbTopFlush": 1,
+    "dbTopFlush": 10,
     "dbDockerFlush": 10
   },
   "topFlushTime": 2,
