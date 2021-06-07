@@ -1,6 +1,6 @@
 {
   "httpPort": 6789,
-  "useDB": true,
+  "useDB": false,
   "dbConf": {
     "dbType": "mongo",
     "dbParams": {
