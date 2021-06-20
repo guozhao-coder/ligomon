@@ -16,13 +16,3 @@ require (
 	gopkg.in/alexcesaro/quotedprintable.v3 v3.0.0-20150716171945-2caba252f4dc // indirect
 	gopkg.in/gomail.v2 v2.0.0-20160411212932-81ebce5c23df
 )
-
-replace (
-	github.com/containerd/containerd => /home/guozhaocoder/go/src/github.com/containerd
-	github.com/docker/docker v1.13.1 => github.com/docker/engine v17.12.0-ce-rc1.0.20200916142827-bd33bbf0497b+incompatible
-	github.com/gogo/protobuf => /home/guozhaocoder/go/src/github.com/gogo/protobuf
-	github.com/google/go-cmp => /home/guozhaocoder/go/src/github.com/go-cmp
-	github.com/gorilla/mux => /home/guozhaocoder/go/src/github.com/mux
-	github.com/sirupsen/logrus => /home/guozhaocoder/go/src/github.com/logrus
-	golang.org/x/time => github.com/golang/time v0.0.0-20201208040808-7e3f01d25324
-)
