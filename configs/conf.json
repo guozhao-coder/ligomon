@@ -16,5 +16,11 @@
   "topFlushTime": 2,
   "dockerFlushTime": 10,
   "pprofPort": 7758,
-  "logPath": "/app/GoWork/ligomonitor/configs/logs.log"
+  "logPath": "/app/GoWork/ligomonitor/configs/logs.log",
+  "mailConf": {
+    "user": "user",
+    "pass": "pass",
+    "host": "host",
+    "port": "port"
+  }
 }

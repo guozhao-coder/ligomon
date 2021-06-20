@@ -64,3 +64,10 @@ func TestGetCpuUsage(t *testing.T) {
 	c = float32(a) / float32(b)
 	fmt.Println(c)
 }
+
+func BenchmarkProc(b *testing.B) {
+	//b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		host.GetProcessTotalInfo(0)
+	}
+}
