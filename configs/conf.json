@@ -18,9 +18,9 @@
   "pprofPort": 7758,
   "logPath": "/app/GoWork/ligomonitor/configs/logs.log",
   "mailConf": {
-    "user": "user",
-    "pass": "pass",
-    "host": "host",
-    "port": "port"
+    "user": "1733755545@qq.com",
+    "pass": "your pass",
+    "host": "smtp.qq.com",
+    "port": "465"
   }
 }

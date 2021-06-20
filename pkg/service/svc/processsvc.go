@@ -70,7 +70,7 @@ func RegisterAlarmEventSvc(event model.AlarmEvtRegisterRequest) error {
 	case cons.MailSIG:
 		alarmEvent.Operate.Fnc = host.MailAlertFunc
 	default:
-		alarmEvent.Operate.Fnc = func(pid int) {
+		alarmEvent.Operate.Fnc = func(pid int, s string) {
 			return
 		}
 	}

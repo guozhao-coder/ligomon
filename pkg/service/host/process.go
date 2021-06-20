@@ -393,22 +393,25 @@ func checkResourceUpperLimit(proc *model.Process) {
 		//compare
 		timeNow := time.Now().Format("2006-01-02 15:04:05")
 		var errS string
+		var exceptS string //exception log
 		if alarmLimitData.CPULimit < proc.CPUUsage {
 			errS = fmt.Sprintf("%s : %d process's cpu usage is upper the limit , upper limit is %f , current is %f ,please check it !", timeNow, proc.Pid, alarmLimitData.CPULimit, proc.CPUUsage)
 			seelog.Error(errS)
 			proc.AlarmMessage.CPUMsg = errS
+			exceptS += errS
 		}
 		if alarmLimitData.VMLimit < proc.VmRss {
 			errS = fmt.Sprintf("%s : %d process's memory is upper the limit,  upper limit is %d , current is %d  ,please check it !", timeNow, proc.Pid, alarmLimitData.VMLimit, proc.VmRss)
 			seelog.Error(errS)
 			proc.AlarmMessage.VMMsg = errS
+			exceptS += errS
 		}
 		if errS != "" {
 			proc.IFAlarm = true
 			//execute the register func
-			alarmProcFunc(func(i int) {
-				alarmLimitData.Operate.Fnc(i)
-			}, proc.Pid)
+			alarmProcFunc(func(i int, excp string) {
+				alarmLimitData.Operate.Fnc(i, excp)
+			}, proc.Pid, exceptS)
 		}
 	}
 }
